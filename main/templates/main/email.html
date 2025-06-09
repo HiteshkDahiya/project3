@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sent Email</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+</head>
+<body>
+<div class="container">
+    {% if messages %}
+    <div id="msg-container" class="position-fixed top-0 start-50 translate-middle-x mt-3 z-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %}alert-danger {% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+             role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div>
+        Welcome {{ username }} <h4 class="alert alert-success">Send Mail</h4>
+    </div>
+    <form method="POST" action="{% url 'mail' %}">
+        {% csrf_token %}
+        <label for="name" class="form-label">Subject:</label>
+        <input class="form-control mb-4" type="text" name="name" id="name" placeholder="Title of the Email"
+               required>
+        <label for="email" class="form-label">Recipient Email:</label>
+        <input class="form-control mb-4" type="email" name="email" id="email" placeholder="company's Email address"
+               required>
+        <label for="message" class="form-label">message:</label>
+        <textarea class="form-control mb-4" name="message" id="message" placeholder="Enter your message" rows="5" cols="40"
+                  required></textarea>
+        <div class="d-flex gap-2">
+            <input class="btn btn-success" type="submit" value="Send"/>
+            <a href="/" class="btn btn-info">Home</a>
+        </div>
+
+    </form>
+</div>
+<script>
+    setTimeout(() => {
+        const msgContainer = document.getElementById('msg-container');
+        if (msgContainer) {
+            msgContainer.style.display = 'none';
+        }
+    }, 1000); // Hides after 1 second
+</script>
+</body>
+</html>

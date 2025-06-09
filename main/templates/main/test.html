@@ -1,0 +1,67 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Testing</title>
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block head_extra %}
+<style>
+    .border-img-lg {
+        width:100px;
+        height:140px;
+        cursor: pointer;
+    }
+</style>
+{% endblock %}
+
+
+{% block header %}
+{% include 'main/header.html'%}
+{% endblock %}
+
+{% block content %}
+<div style="padding-top:145px;"></div>
+<div class="container">
+    <p style="text-align:center;">Testing Page</p>
+    <div style="text-align:center;">
+        <h1>Price after Discount:{{ newPrice }}</h1>
+    </div>
+</div>
+
+<script>
+    function updateImage(element) {
+        const newImageSrc = element.getAttribute("data-image");
+        const img = document.getElementById('image1');
+        img.src = newImageSrc;
+
+        document.querySelectorAll('.image-caption').forEach(img => {
+            img.style.border = 'none';
+        });
+
+        const caption = element.querySelector('.image-caption');
+        caption.style.borderBottom = '2px solid black';
+    }
+
+    function changeText(element) {
+        const newImageSrc = element.getAttribute("data-image");
+        const img = document.getElementById('color-options-image');
+        img.src = newImageSrc;
+
+        document.querySelectorAll('.image-caption').forEach(img => {
+            img.style.border = 'none';
+        });
+
+        const caption = element.querySelector('.image-caption');
+        caption.style.borderBottom = '2px solid black';
+    }
+</script>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+

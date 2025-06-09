@@ -1,0 +1,644 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+<title>Men's Shoes</title>
+{% endblock %}
+
+{% block style %}
+
+{% endblock %}
+
+{% block head_extra %}
+<style>
+
+    .sidebar {
+      width: 300px;
+      padding-right: 50px;
+    }
+
+    .sticky-box {
+      position: sticky;
+      top: 140px;
+
+
+    }
+
+    .main-content {
+      flex: 1;
+      padding-left: 20px;
+
+    }
+
+    .myContainer {;
+        margin:0 250px;
+        display: flex;
+        padding-top: 40px;
+    }
+
+    .block {
+      width: 269.5px;
+      height: 417.45px;
+      margin-bottom: 90px;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+{% include 'main/header.html'%}
+{% endblock %}
+
+{% block content %}
+<div style="padding-top:140px;"></div>
+<div>
+    <img src="{% static 'images/menShoes.jpg' %}">
+</div>
+<div class="myContainer">
+    <div class="sidebar">
+        <div style="font-weight:50; font-size:12px;">Home /Shop /Men's Running Shoes</div>
+        <div class="sticky-box">
+            <div id='filterBar' class="d-flex justify-content-between hide-filter-bar">
+                <span><i class="fa-solid fa-sliders"></i>  Filters</span>
+                <span onclick="clearFilters()" style="cursor: pointer; font-size:10px; margin-top:5px;">clear all</span>
+            </div>
+            <div class="filter">
+                <div id="price01" onclick="clearFilter('price01')" class="filterType">
+                    $0 - $50<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="price02" class="filterType">
+                    $51 - $100<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="price03" class="filterType">
+                    $101 - $150<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="price04" class="filterType">
+                    $151 - $200<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="price05" class="filterType">
+                    $201 & above<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="discount01" class="filterType">
+                    10% - 100%<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="discount02" class="filterType">
+                    20% - 100%<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="discount03" class="filterType">
+                    30% - 100%<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="discount04" class="filterType">
+                    40% - 100%<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="discount05" class="filterType">
+                    50% - 100%<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="size01" class="filterType">
+                    6<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="size02" class="filterType">
+                    7<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="size03" class="filterType">
+                    8<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="size04" class="filterType">
+                    9<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="size05" class="filterType">
+                    10<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color01" class="filterType">
+                    Black<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color02" class="filterType">
+                    Grey<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color03" class="filterType">
+                    Off White<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color04" class="filterType">
+                    White<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color05" class="filterType">
+                    Red<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color06" class="filterType">
+                    Blue<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color07" class="filterType">
+                    Orange<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color08" class="filterType">
+                    Yellow<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color09" class="filterType">
+                    Brown<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="color10" class="filterType">
+                    Navy Blue<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="type01" class="filterType">
+                    Latest Products<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="type02" class="filterType">
+                    Campus Sports Shoes<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="type03" class="filterType">
+                    Campus Walking Shoes<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+                <div id="type04" class="filterType">
+                    Campus Sneakers<i class="fa-solid fa-xmark" style="margin-left:8px; font-size:11px;"></i>
+                </div>
+
+                <div id="color11" style="display:none; margin-top: 10px;">This is color 10</div>
+            </div>
+            <div class="dropdown-filter">
+                <a class="dropdown-button">PRICE<i class="fa-solid fa-sort-up"></i></a>
+                <div class="dropdown-content2 dropdownMenu">
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="price01" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'price01')" value="1-50" data-filter-group="price">
+                        $1 - $50
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="price02" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'price02')" value="51-100" data-filter-group="price">
+                        $51 - $100
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="price03" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'price03')" value="101-150" data-filter-group="price">
+                        $101 - $150
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="price04" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'price04')" value="151-200" data-filter-group="price">
+                        $151 - $200
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="price05" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'price05')" value="201-500" data-filter-group="price">
+                        $201 & above
+                    </label>
+                </div>
+                <div class="moving-border"></div>
+            </div>
+            <div class="dropdown-filter">
+                <a class="dropdown-button">DISCOUNT<i class="fa-solid fa-sort-up"></i></a>
+                <div class="dropdown-content2 dropdownMenu">
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="discount01" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'discount01')" value="10-19" data-filter-group="discount">
+                        10% - And Above
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="discount02" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'discount02')" value="20-29" data-filter-group="discount">
+                        20% - And Above
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="discount03" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'discount03')" value="30-39" data-filter-group="discount">
+                        30% - And Above
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="discount04" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'discount04')" value="40-49" data-filter-group="discount">
+                        40% - And Above
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="discount05" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'discount05')" value="50-100" data-filter-group="discount">
+                        50% - And Above
+                    </label>
+                </div>
+                <div class="moving-border"></div>
+            </div>
+            <div class="dropdown-filter">
+                <a class="dropdown-button">SIZE<i class="fa-solid fa-sort-up"></i></a>
+                <div class="dropdown-content2 dropdownMenu">
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="size01" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'size01')" value="6" data-filter-group="size">
+                        6
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="size02" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'size02')" value="7" data-filter-group="size">
+                        7
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="size03" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'size03')" value="8" data-filter-group="size">
+                        8
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="size04" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'size04')" value="9" data-filter-group="size">
+                        9
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="size05" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'size05')" value="10" data-filter-group="size">
+                        10
+                    </label>
+                </div>
+                <div class="moving-border"></div>
+            </div>
+            <div class="dropdown-filter">
+                <a class="dropdown-button">COLOR<i class="fa-solid fa-sort-up"></i></a>
+                <div class="dropdown-content2 dropdownMenu">
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color01" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color01')" value="Black" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color: black;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color02" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color02') colorType(this, 'color02')" value="Grey"
+                               data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:grey;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color03" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color03')" value="Off White" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:#f5f5f5;;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color04" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color04')" value="White" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:white;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color05" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color05')" value="Red" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:red;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color06" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color06')" value="Blue" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:blue;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color07" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color07')" value="Orange" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:orange;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color08" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color08')" value="Yellow" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:yellow;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color09" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color09')" value="Brown" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:brown;"></i>
+                    </label>
+                    <label class="filter-label-color" style="position: relative;">
+                        <input type="checkbox" data-filter="color10" class="filter-input-color filter-checkbox"
+                               onchange="changeDiv(this, 'color10')" value="Navy" data-filter-group="color">
+                        <i class="fa-solid fa-circle shoe-color" style="color:#000080;"></i>
+                    </label>
+                </div>
+                <div class="moving-border"></div>
+            </div>
+            <div class="dropdown-filter">
+                <a class="dropdown-button">PRODUCT TYPE<i
+                        class="fa-solid fa-sort-up"></i></a>
+                <div class="dropdown-content2 dropdownMenu">
+                    <label class="filter-label">
+                        <input type="checkbox" class="filter-input filter-checkbox" value="all" checked
+                               data-filter-group="all">
+                        All
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="type02" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'type02');" value="campus-sports" data-filter-group="brand">
+                        Campus Sports Shoes
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="type03" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'type03');" value="campus-walking" data-filter-group="brand">
+                        Campus Walking Shoes
+                    </label>
+                    <label class="filter-label">
+                        <input type="checkbox" data-filter="type04" class="filter-input filter-checkbox"
+                               onchange="changeDiv(this, 'type04');" value="campus-sneakers" data-filter-group="brand">
+                        Campus Sneakers
+                    </label>
+                </div>
+                <div class="moving-border"></div>
+            </div>
+        </div>
+    </div>
+    <div class="main-content mt-4">
+        <div class="d-flex justify-content-between" style="font-size:15px;">
+            <div class="d-flex align-items-center" style="gap: 10px; width: auto; margin-left:40px;">
+                <div onclick="view()" style="cursor: pointer;">
+                    <svg viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="#000000">
+                        <g>
+                            <rect x="2" y="2" width="3" height="3"/>
+                            <rect x="10" y="2" width="3" height="3"/>
+                            <rect x="18" y="2" width="3" height="3"/>
+                            <rect x="2" y="10" width="3" height="3"/>
+                            <rect x="10" y="10" width="3" height="3"/>
+                            <rect x="18" y="10" width="3" height="3"/>
+                            <rect x="2" y="18" width="3" height="3"/>
+                            <rect x="10" y="18" width="3" height="3"/>
+                            <rect x="18" y="18" width="3" height="3"/>
+                        </g>
+                    </svg>
+                </div>
+                <div onclick="type()" style="cursor: pointer;">
+                    <svg viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="none">
+                        <g>
+                            <path d="M10 6L26 6M10 15L26 15M10 24L26 24M4 6H4.02M4 15H4.02M4 24H4.02" stroke="#000"
+                                  stroke-width="2" stroke-linecap="round"/>
+                            <circle cx="4.5" cy="6" r="0.5" fill="#000"/>
+                            <circle cx="4.5" cy="15" r="0.5" fill="#000"/>
+                            <circle cx="4.5" cy="24" r="0.5" fill="#000"/>
+                        </g>
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <p style="font-weight:550;">Men's Footwear</p>
+                <p style="text-align: center;" id="iCount">{{ itemCount }} products</p>
+            </div>
+            <div style="position:relative;">
+                <div class='border-s' id="sortToggle" onclick="sort()">
+                    Sort<i class="fa-solid fa-chevron-down" style="margin-left:120px; font-size:10px;"></i>
+                </div>
+                <div id="sortMenu" class="sortMenu">
+                    <a href="?sort=is_bestSeller" onclick="handleSortAjax(this, event)" style="text-decoration: none;"><span class="sortMemuItem">Best Selling</span></a>
+                    <a href="?sort=is_newArrival" onclick="handleSortAjax(this, event)" style="text-decoration: none;"><span class="sortMemuItem" >New Arrivals</span></a>
+                    <a href="?sort=price_asc" onclick="handleSortAjax(this, event)" style="text-decoration: none;"><span class="sortMemuItem" >price: Low to High</span></a>
+                    <a href="?sort=price_desc" onclick="handleSortAjax(this, event)" style="text-decoration: none;"><span class="sortMemuItem" >price: High to Low</span></a>
+                    <a href="?sort=discount_desc" onclick="handleSortAjax(this, event)" style="text-decoration: none;"><span class="sortMemuItem" >discount: High to Low</span></a>
+                </div>
+            </div>
+        </div>
+        <div id='type11'>
+            <div id="product-container" class="d-flex" style="flex-wrap: wrap; margin-top:20px;">
+                {% for product in products %}
+                {% if product.item_brand != 'latest' %}
+                    {% with product|available_sizes_string:available_sizes as size_list %}
+                        {% if size_list %}
+                            <div class="block product-card" data-brand="{{ product.item_brand }}"
+                                 data-color="{{ product.item_color }}"
+                                 data-size="{{ size_list }}" data-price="{{ product.item_price }}" data-discount="{{ product.discount }}"
+                                 data-isbestseller="{{ product.is_bestSeller|yesno:'true,false' }}" data-isnew="{{ product.is_newArrival|yesno:'true,false' }}">
+                                <div class="footWear" style="position:relative;">
+                                    <img src="{{ product.item_image.url}}" class="imgFootwear">
+                                    <span class="disc">{{ product.discount }}% off</span>
+                                    {% if product.is_bestSeller %}
+                                    <span class="BsNa-after"></span>
+                                    <span class="BsNa"><i class="fa-solid fa-star" style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                                    {% endif %}
+                                    {% if product.is_newArrival %}
+                                    <span class="BsNa-after"></span>
+                                    <span class="BsNa">New Arrival</span>
+                                    {% endif %}
+                                    <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ product.id }}"/>
+                                        </div>
+                                        <button class="wishlist-btn" type="submit"
+                                                onclick="toggleHeart(this)"
+                                                data-id="{{ user.id }}{{ product.id }}">
+                                            <i class="fa-regular fa-heart heart"></i>
+                                        </button>
+                                    </form>
+                                    <a href="/show_detail/{{ product.id }}" class="buy">QUICK BUY</a>
+                                </div>
+                                <div style="padding:5px;">
+                                    <span style="color:grey; font-size:15px;">{{ product.item_name }}</span><br>
+                                    {% if product.discount %}
+                                    <span style="font-weight:550;">${{ product.final_price }}</span>
+                                    <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ product.item_price }}</del></span>
+                                    <span style="color:#e30000; margin-left:5px;">sale</span><br>
+                                    {% else %}
+                                    <span style="font-weight:550;">${{ product.item_price }}</span><br>
+                                    {% endif %}
+                                    <span style="color:#c8c8c8; font-size:15px;">{{ size_list }}</span>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div id='type12' style="display:none; margin-top:20px;">
+            <div id="type101" style="display:block;">
+                {% for product in products %}
+                {% if product.item_brand != 'latest' %}
+                <div class="d-flex">
+                    <div class="footWear" style="position:relative;">
+                        <a href="/show_detail/{{ product.id }}">
+                            <div data-src="{{ second_images|dict_get:product.id }}"
+                                 data-color="" onmouseover="updateImage(this)" onmouseout="resetImage(this)">
+                                <img src="{{ product.item_image.url }}" class="productImage"
+                                     style="height:165.44px; width:135.5px; padding:10px;">
+                            </div>
+                        </a>
+                        <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                            {% csrf_token %}
+                            <div class="hiddenForm">
+                                <input type="number" name='user_id' value="{{ user.id }}"/>
+                                <input type="number" name='item_id' value="{{ product.id }}"/>
+                            </div>
+                            <button class="wishlist-btn" type="submit"
+                                    onclick="toggleHeart(this)"
+                                    data-id="{{ user.id }}{{ product.id }}">
+                                <i class="fa-regular fa-heart heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div style="padding-top: 40px; padding-left: 60px; font-size:15px;">
+                        <span style="color:grey; font-size:15px;">{{ product.item_name }}</span><br>
+                        <span style="font-weight:550;">${{ product.item_price }}</span><br>
+                        <span style="color:light-grey; font-size:15px;">6 7 8 9 10</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div id="type102" style="display:none;">
+                {% for product in products %}
+                {% if product.item_brand == 'campus-sports' %}
+                <div class="d-flex">
+                    <div class="footWear" style="position:relative;">
+                        <a href="/show_detail/{{ product.id }}">
+                            <div data-src="{{ second_images|dict_get:product.id }}"
+                                 data-color="" onmouseover="updateImage(this)" onmouseout="resetImage(this)">
+                                <img src="{{ product.item_image.url }}" class="productImage"
+                                     style="height:165.44px; width:135.5px; padding:10px;">
+                            </div>
+                        </a>
+                        <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                            {% csrf_token %}
+                            <div class="hiddenForm">
+                                <input type="number" name='user_id' value="{{ user.id }}"/>
+                                <input type="number" name='item_id' value="{{ product.id }}"/>
+                            </div>
+                            <button class="wishlist-btn" type="submit"
+                                    onclick="toggleHeart(this)"
+                                    data-id="{{ user.id }}{{ product.id }}">
+                                <i class="fa-regular fa-heart heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div style="padding-top: 40px; padding-left: 60px; font-size:15px;">
+                        <span style="color:grey; font-size:15px;">{{ product.item_name }}</span><br>
+                        <span style="font-weight:550;">${{ product.item_price }}</span><br>
+                        <span style="color:light-grey; font-size:15px;">6 7 8 9 10</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div id="type103" style="display:none;">
+                {% for product in products %}
+                {% if product.item_brand == 'campus-walking' %}
+                <div class="d-flex">
+                    <div class="footWear" style="position:relative;">
+                        <a href="/show_detail/{{ product.id }}">
+                            <div data-src="{{ second_images|dict_get:product.id }}"
+                                 data-color="" onmouseover="updateImage(this)" onmouseout="resetImage(this)">
+                                <img src="{{ product.item_image.url }}" class="productImage"
+                                     style="height:165.44px; width:135.5px; padding:10px;">
+                            </div>
+                        </a>
+                        <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                            {% csrf_token %}
+                            <div class="hiddenForm">
+                                <input type="number" name='user_id' value="{{ user.id }}"/>
+                                <input type="number" name='item_id' value="{{ product.id }}"/>
+                            </div>
+                            <button class="wishlist-btn" type="submit"
+                                    onclick="toggleHeart(this)"
+                                    data-id="{{ user.id }}{{ product.id }}">
+                                <i class="fa-regular fa-heart heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div style="padding-top: 40px; padding-left: 60px; font-size:15px;">
+                        <span style="color:grey; font-size:15px;">{{ product.item_name }}</span><br>
+                        <span style="font-weight:550;">${{ product.item_price }}</span><br>
+                        <span style="color:light-grey; font-size:15px;">6 7 8 9 10</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <div id="type104" style="display:none;">
+                {% for product in products %}
+                {% if product.item_brand == 'campus-sneakers' %}
+                <div class="d-flex">
+                    <div class="footWear" style="position:relative;">
+                        <a href="/show_detail/{{ product.id }}">
+                            <div data-src="{{ second_images|dict_get:product.id }}"
+                                 data-color="" onmouseover="updateImage(this)" onmouseout="resetImage(this)">
+                                <img src="{{ product.item_image.url }}" class="productImage"
+                                     style="height:165.44px; width:135.5px; padding:10px;">
+                            </div>
+                        </a>
+                        <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                            {% csrf_token %}
+                            <div class="hiddenForm">
+                                <input type="number" name='user_id' value="{{ user.id }}"/>
+                                <input type="number" name='item_id' value="{{ product.id }}"/>
+                            </div>
+                            <button class="wishlist-btn" type="submit"
+                                    onclick="toggleHeart(this)"
+                                    data-id="{{ user.id }}{{ product.id }}">
+                                <i class="fa-regular fa-heart heart"></i>
+                            </button>
+                        </form>
+                    </div>
+                    <div style="padding-top: 40px; padding-left: 60px; font-size:15px;">
+                        <span style="color:grey; font-size:15px;">{{ product.item_name }}</span><br>
+                        <span style="font-weight:550;">${{ product.item_price }}</span><br>
+                        <span style="color:light-grey; font-size:15px;">6 7 8 9 10</span>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="myContainer">
+    <div class="sidebar"></div>
+    <div class="main-content" style="margin:30px;">
+        <div style="font-size:15px;">
+            <p></p>
+            <strong><span>Campus Running Shoes for Men: Ultimate Comfort &amp; Performance</span></strong>
+            <p></p>
+            <p>
+                Attention Runners! Make your everyday runs even more comfortable and fun with Campus running shoes for
+                men. With features
+                that make them extra supportive, impressive accents, and cool looks Campus running shoes are the new
+                all-rounders.&nbsp;
+            </p>
+            <p>Campus&nbsp;<b>Men's Running Shoes</b>&nbsp;come in a plethora of colors, including bright white, bold
+                black, grey, blue, red,
+                yellow, purple, green, orange, brown, and many more shades to choose from. Be it subtle shades that suit
+                your work attire or
+                exceptionally bold colors that are perfect for your party looks, there is something for everyone in this
+                collection.
+            </p>
+            <span>Some impressive features that make Campus Running Shoes better for you!</span>
+            <ul style="margin-top: 0in;" type="disc">
+                <li>
+                    <span style="font-size:18px; font-weight: 420;">Cushioned insoles: </span><span>Every pair is equipped with cushioned insoles to absorb impact and provide superior
+                    comfort. This is especially beneficial for long-distance runners.</span>
+                </li>
+                <li>
+                    <span style="font-size:18px; font-weight: 420">Knitted upper: </span><span> Some of our <a href="#">shoes for men</a>
+                    feature a soft knitted vamp upper that allows the air inside your shoes. This airflow not only keeps your feet comfortable
+                    but also helps against odor.&nbsp;</span>
+                </li>
+                <li>
+                    <span style="font-size:18px; font-weight: 420">Breathable materials: </span><span> This feature is important to feet stay cool and dry. The uppers made of mesh allow
+                    your skin to breathe while preventing sweat buildup and any discomfort during exercise.</span>
+                </li>
+                <li>
+                    <span style="font-size:18px; font-weight: 420">Non-Slip outsoles: </span><span> Many of our shoes for men feature a non-slip outsole that provides excellent traction
+                    on various surfaces, ensuring you remain steady and secure wherever you go.</span>
+                </li>
+                <li>
+                    <span style="font-size:18px; font-weight: 420">Flexible soles: </span><span> The flexible soles adapt to your foot’s natural movements, enhance agility, and allow
+                    for a more confident stride.</span>
+                </li>
+                <li>
+                    <span style="font-size:18px; font-weight: 420">Stylish designs: </span><span> Latest style and designs so you do not compromise on fashion for function. Look stylish
+                    while performing at your best with <a>Campus shoes</a>.&nbsp;</span>
+                </li>
+            </ul>
+            <p>
+                <span>We incorporate the latest technologies into our designs to ensure that you get the best from the rest. Explore the
+                    complete range and discover what makes Campus&nbsp;<b>running</b>&nbsp;<b>shoes for men</b>&nbsp;a
+                    popular choice among those who take their fitness regime seriously.</span>
+            </p>
+            <p><span>&nbsp;</span></p>
+            <h6><span>Explore More</span></h6>
+            <p><span>
+                <a>Men’s Sports Shoes</a>&nbsp;|&nbsp;
+                <a>Men’s Sneakers</a>&nbsp;|
+                <a>Men's Casual Shoes</a> |&nbsp;
+                <a>Men's Walking Shoes</a> |
+                <a>Sports Shoes Under 1000</a>
+            </span><br>
+            </p></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'main/footer.html'%}
+{% endblock %}

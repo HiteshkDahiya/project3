@@ -1,0 +1,132 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>
+    Shopping Cart
+</title>
+{% endblock %}
+
+{% block header %}
+{% include 'main/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="modal-content" style="padding-top:120px;">
+    <div class="text-center  border-top">
+        <h2 class="modal-title text-center my-5 fs-5">Shopping Cart</h2>
+    </div>
+
+    <div class="modal-body container">
+        {% if cart_items %}
+        <div class="d-flex  border-bottom">
+            <div class="col-lg-5 d-flex col-md-5 col-sm-5 me-4"><b>Product</b></div>
+            <div class="col-lg-4 col-md-4 d-flex col-sm-4 offset-3"><b
+                    style="margin-left:60px; margin-right:60px;">price</b><b style="margin-right:100px;">quantity</b><b>Total
+                price</b></div>
+        </div>
+        <div class="shopping-cart-content">
+            <div class="shopping-cart ">
+                {% for item in cart_items %}
+                <div class="cartList-item" id="item-{{ item.id }}">
+                    <div class="mini-cart cart-list p-0 mt-3">
+                        <div class="mini-cart-item d-flex  border-bottom pb-3">
+                            <div class="col-lg-5 d-flex col-md-5 col-sm-5 me-4">
+                                <a href="/show_detail/{{ item.item_id }}" title="product-image" class="me-4">
+                                    <img src="{{ item.item.item_image.url }}" style="height:75px;"
+                                         class="img-fluid"
+                                         alt="single-product-item">
+                                </a>
+                                <div>
+                                    <h4 class="product-title fs-6 me-5">{{ item.item.item_name }}</h4>
+                                    <p>{{ item.item.item_color }} / {{ item.item_size }}</p>
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 d-flex col-sm-4 offset-3 product-box quantity-box">
+                                <div class="price-code d-flex align-items-center me-4" style="margin-left:50px;">
+                                    $<span class="product-price fs-6 price">{{ item.final_price }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center ">
+                                    <div data-product-id="{{ item.id }}"
+                                         style="display: flex; align-items: center; margin-right:80px;">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeQty(this, -1)">-
+                                        </button>
+                                        <input type="text" class="quantity-input btn btn-light text-black"
+                                               value="{{ item.item_quantity }}" min="1"
+                                               style="width: 60px; text-align: center;">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                                onclick="changeQty(this, 1)">+
+                                        </button>
+                                    </div>
+
+                                    <div>
+                                        $<span class="item-total"
+                                               data-product-id="{{ item.id }}">{{ item.total_price }}</span>
+                                    </div>
+                                </div>
+                                <!-- quantity-price -->
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="delete-cart-link text-danger" style="opacity:0.5;" data-id="{{ item.id }}"
+                       data-itemid="{{ item.user_id }}_{{ item.item_id }}_{{ item.item_size }}">remove</a>
+                </div>
+                {% endfor %}
+                <div class="mini-cart-total d-flex justify-content-between py-2">
+                    <span class="fs-6"><b>Subtotal:</b></span>
+                    <span class="special-price-code">
+                        <span class="price-amount amount fs-6" style="opacity: 1;">
+                        $<span id="cart-total">{{ cart_total }}</span>
+                        </span>
+                        </span>
+                </div>
+                <div class="modal-footer justify-content-end">
+                    <div id="pincode">
+                        <div class="mt-4" style="text-align: end;">
+                            <object type="image/svg+xml"
+                                    data="https://www.risingsigma.com/zippy-v2/assets/img/icons/svg/1.svg"></object>
+                            <span id="delhivery"
+                                  style="color: #746767; font-size: 14px;">Check delivery at your location</span>
+                        </div>
+                        <div style="text-align: end;">
+                            <form id="formid">
+                                <input id="pin" type="text" placeholder="Enter your pincode" autocomplete="off"
+                                       maxlength="8">
+                                <button style="background-color:#3f426e; color:white;" id="checkPin" type="submit">
+                                    Check
+                                </button>
+                            </form>
+                        </div>
+                        <div id="result1" onclick='knowMore()' style="margin-top: 10px; color:#7ebff5; font-weight: bold; text-align: end;"></div>
+
+                        <div id="result2" style="color:#507a51; font-weight: bold; display:none;"></div>
+                        <div style="text-align: end;">
+                            <button id="rzp-button" type="button"
+                                    class="btn btn-outline-gray hvr-sweep-to-right dark-sweep mt-3"
+                                    style="width:292px; height:50px;">Buy Now
+                            </button>
+                        </div>
+                        <div id="loader">Processing payment...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="d-flex justify-content-center">
+            <p>No Item Available in Cart</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'main/footer.html' %}
+{% endblock %}
+
+
+

@@ -1,0 +1,836 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Stylish - Shoes Online Store </title>
+{% endblock %}
+
+{% block style %}
+<style>
+
+
+</style>
+{% endblock %}
+
+{% block header %}
+{% include 'main/header.html'%}
+{% endblock %}
+
+{% block content %}
+<section id="intro" class="position-relative mt-5">
+    <div class="slider-container">
+        <div class="slider" id="slider">
+            <img src="{% static 'images/image-wrapper01.jpg'%}" alt="product-item" class="slide">
+            <img src="{% static 'images/image-wrapper02.jpg'%}" alt="product-item" class="slide">
+            <img src="{% static 'images/image-wrapper03.jpg'%}" alt="product-item" class="slide">
+            <img src="{% static 'images/image-wrapper01.jpg'%}" alt="product-item" class="slide">
+        </div>
+    </div>
+</section>
+<section id='sale' class="discount-coupon py-2 my-2 py-md-5 my-md-5" style="scroll-margin-top: 120px;">
+    <div class="container">
+        <div class="bg-gray coupon position-relative p-5">
+            <div class="bold-text position-absolute">10% OFF</div>
+            <div class="row justify-content-between align-items-center">
+                <div class="col-lg-7 col-md-12 mb-3">
+                    <div class="coupon-header">
+                        <h2 class="display-7">10% OFF Discount Coupons</h2>
+                        <p class="m-0">Subscribe us to get 10% OFF on all the purchases</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-12">
+                    <div class="btn-wrap">
+                        <a href="/mailme/" class="btn btn-black btn-medium text-uppercase hvr-sweep-to-right">Email
+                            me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="collection-products" class="py-2 my-2 py-md-5 my-md-5">
+    <div class="container-md">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 mb-4">
+                <div class="collection-card card border-0 d-flex flex-row align-items-end jarallax-keep-img">
+                    <a href="/show_detail/4"><img src="{% static 'images/collection-item1.jpg' %}" alt="product-item"
+                                                  class="border-rounded-10 img-fluid jarallax-img"
+                                                  style="width:636px; height:672px;"></a>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="collection-card card border-0 d-flex flex-row jarallax-keep-img">
+                    <a href="/show_detail/5"><img src="{% static 'images/collection-item2.jpg' %}" alt="product-item"
+                                                  class="border-rounded-10 img-fluid jarallax-img"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section id="latest-products" class="product-store py-2" style="scroll-margin-top: 120px;">
+    <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+            <h2 class="section-title text-uppercase">Latest Products</h2>
+            {% if can_edit %}
+            <div class="btn-right">
+                <a href="/add_item" class="d-inline-block text-uppercase text-hover fw-bold">Add Product</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="product-content padding-small">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                {% if not client %}
+                {% for product in products %}
+                {% if product.item_brand == 'latest' %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+
+                        <div class="card-img action-wrapper">
+                            <a href="/show_detail/{{ product.id }}"><img src="{{ product.item_image.url }}"
+                                                                         alt="product-item"
+                                                                         class="product-image img-fluid"></a>
+                            <div class="cart-concern position-absolute d-flex justify-content-center"
+                                 style="white-space: nowrap; bottom:151px;">
+                                <div class="message-container"
+                                     style="margin-top: 10px; border:none; border-radius:10px;"></div>
+                            </div>
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <button class="btn btn-light save-btn" data-client="false">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ product.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <div class="card-detail d-flex justify-content-between align-items-center mt-3">
+                            <h3 class="card-title fs-6 fw-normal m-0">
+                                <a href="index.html">{{ product.item_name}}</a>
+                            </h3>
+                            <span class="card-price fw-bold">${{ product.item_price }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                {% for member in user_products %}
+                {% if member.user_id == user_id %}
+                {% if member.item.item_brand == 'latest' %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+                        <div class="card-img">
+                            <a href="/show_detail/{{ member.item_id }}"><img src="{{ member.item.item_image.url }}"
+                                                                             alt="product-item"
+                                                                             class="product-image img-fluid"></a>
+                            {% if can_edit %}
+                            <div class="pate position-absolute top-0 end-0">
+                                <a href="/delete_item/{{ member.item_id }}">
+                                    <button type="submit" class="btn-close" aria-label="Close">
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="pate position-absolute top-0 start-0" style="border:0px;">
+                                <a href="/edit_item/{{ member.item_id }}">
+                                    <button type="submit">Edit
+                                    </button>
+                                </a>
+                            </div>
+                            {% endif %}
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <form class='wish-form' method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ member.item_id }}"/>
+                                        </div>
+                                        <button class="btn btn-light" type="submit" onclick="toggleHeart(this)"
+                                                data-id="{{ member.user_id}}{{ member.item_id }}">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ member.item_id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <div class="card-detail d-flex justify-content-between align-items-center mt-3">
+                            <h3 class="card-title fs-6 fw-normal m-0">
+                                <a href="index.html">{{ member.item.item_name}}</a>
+                            </h3>
+                            <span class="card-price fw-bold">${{ member.item.item_price }}</span>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                {% endif %}
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<section id="campus-products" class="py-2 py-md-5 my-md-5" style="margin-top:0px;">
+    <div style="height: 200vh; display: flex;">
+        <!-- Column 1 -->
+        <div style="width: 50%; height: 100vh; display: flex; flex-direction: column;">
+            <div style="flex: 1; padding:5px;">
+                <a href="{% url 'men-shoes' %}?filter=type04">
+                    <img src="{% static 'images/page-style1.jpg' %}" alt="product-item"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                </a>
+            </div>
+            <div style="flex: 1; padding:5px;">
+                <a href="{% url 'men-shoes' %}?filter=type02">
+                    <img src="{% static 'images/page-style2.jpg' %}" alt="product-item"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                </a>
+            </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div style="width: 50%; height: 100vh; display: flex; flex-direction: column;">
+            <div style="flex: 1; padding:5px;">
+                <a href="{% url 'men-shoes' %}?filter=type03">
+                    <img src="{% static 'images/page-style3.jpg' %}" alt="product-item"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                </a>
+            </div>
+            <div style="flex: 1; padding:5px;">
+                <a href="{% url 'women-shoes' %}">
+                    <img src="{% static 'images/page-style4.jpg' %}" alt="product-item"
+                         style="width: 100%; height: 100%; object-fit: cover;">
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<section id="campus-sports-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+    <div class="container-md">
+        <div class="display-header d-flex align-items-center d-flex justify-content-between">
+            <h2 class="section-title text-uppercase">Campus Sports Shoes</h2>
+            <div class="btn-right">
+                <a href="{% url 'men-shoes' %}?filter=type02" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+            </div>
+            {% if can_edit %}
+            <div class="btn-right">
+                <a href="/add_item" class="d-inline-block text-uppercase text-hover fw-bold">Add Product</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="product-content padding-small">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                {% if not client %}
+                {% for product in sports_products %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+
+                        <div class="card-img action-wrapper">
+                            <a href="/show_detail/{{ product.id }}"><img src="{{ product.item_image.url }}"
+                                                                         alt="product-item"
+                                                                         class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ product.discount }}% off</span>
+                            {% if product.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if product.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="cart-concern position-absolute d-flex justify-content-center"
+                                 style="white-space: nowrap; bottom:151px;">
+                                <div class="message-container"
+                                     style="margin-top: 10px; border:none; border-radius:10px;"></div>
+                            </div>
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <button class="btn btn-light save-btn" data-client="false">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ product.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ product.item_name}}</a>
+                        </h3>
+                        {% if product.discount %}
+                        <span style="font-weight:550;">${{ product.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ product.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ product.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% elif user.username == 'admin' %}
+                {% for member in products %}
+                {% if member.item_brand == 'campus-sports' %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+                        <div class="card-img">
+                            <a href="/show_detail/{{ member.id }}"><img src="{{ member.item_image.url }}"
+                                                                        alt="product-item"
+                                                                        class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ member.discount }}% off</span>
+                            {% if member.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if member.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="pate position-absolute top-0 end-0">
+                                <a href="/delete_item/{{ member.id }}">
+                                    <button type="submit" class="btn-close" aria-label="Close">
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="pate position-absolute top-0 start-0" style="border:0px;">
+                                <a href="/edit_item/{{ member.id }}">
+                                    <button type="submit">Edit
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ member.id }}"/>
+                                        </div>
+                                        <button class="btn btn-light wishlist-btn" type="submit"
+                                                onclick="toggleHeart(this)"
+                                                data-id="{{ user_id}}{{ member.id }}">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ member.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ member.item_name}}</a>
+                        </h3>
+                        {% if member.discount %}
+                        <span style="font-weight:550;">${{ member.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ member.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ member.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                {% for member in sports_products %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+                        <div class="card-img">
+                            <a href="/show_detail/{{ member.id }}"><img src="{{ member.item_image.url }}"
+                                                                        alt="product-item"
+                                                                        class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ member.discount }}% off</span>
+                            {% if member.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if member.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ member.id }}"/>
+                                        </div>
+                                        <button class="btn btn-light wishlist-btn" type="submit"
+                                                onclick="toggleHeart(this)"
+                                                data-id="{{ user_id}}{{ member.id }}">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ member.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ member.item_name}}</a>
+                        </h3>
+                        {% if member.discount %}
+                        <span style="font-weight:550;">${{ member.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ member.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ member.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<section id="campus-walking-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+    <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+            <h2 class="section-title text-uppercase">Campus Walking Shoes</h2>
+            <div class="btn-right">
+                <a href="{% url 'men-shoes' %}?filter=type03" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+            </div>
+            {% if can_edit %}
+            <div class="btn-right">
+                <a href="/add_item" class="d-inline-block text-uppercase text-hover fw-bold">Add Product</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="product-content padding-small">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                {% if not client %}
+                {% for product in walking_products %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+
+                        <div class="card-img action-wrapper">
+                            <a href="/show_detail/{{ product.id }}"><img src="{{ product.item_image.url }}"
+                                                                         alt="product-item"
+                                                                         class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ product.discount }}% off</span>
+                            {% if product.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if product.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="cart-concern position-absolute d-flex justify-content-center"
+                                 style="white-space: nowrap; bottom:151px;">
+                                <div class="message-container"
+                                     style="margin-top: 10px; border:none; border-radius:10px;"></div>
+                            </div>
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <button class="btn btn-light save-btn" data-client="false">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ product.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ product.item_name}}</a>
+                        </h3>
+                        {% if product.discount %}
+                        <span style="font-weight:550;">${{ product.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ product.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ product.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% elif user.username == 'admin' %}
+                {% for member in products %}
+                {% if member.item_brand == 'campus-walking' %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+                        <div class="card-img">
+                            <a href="/show_detail/{{ member.id }}"><img src="{{ member.item_image.url }}"
+                                                                        alt="product-item"
+                                                                        class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ member.discount }}% off</span>
+                            {% if member.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if member.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="pate position-absolute top-0 end-0">
+                                <a href="/delete_item/{{ member.id }}">
+                                    <button type="submit" class="btn-close" aria-label="Close">
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="pate position-absolute top-0 start-0" style="border:0px;">
+                                <a href="/edit_item/{{ member.id }}">
+                                    <button type="submit">Edit
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ member.id }}"/>
+                                        </div>
+                                        <button class="btn btn-light wishlist-btn" type="submit"
+                                                onclick="toggleHeart(this)"
+                                                data-id="{{ user_id}}{{ member.id }}">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ member.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ member.item_name}}</a>
+                        </h3>
+                        {% if member.discount %}
+                        <span style="font-weight:550;">${{ member.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ member.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ member.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                {% for member in walking_products %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+                        <div class="card-img">
+                            <a href="/show_detail/{{ member.id }}"><img src="{{ member.item_image.url }}"
+                                                                        alt="product-item"
+                                                                        class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ member.discount }}% off</span>
+                            {% if member.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if member.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ member.id }}"/>
+                                        </div>
+                                        <button class="btn btn-light wishlist-btn" type="submit"
+                                                onclick="toggleHeart(this)"
+                                                data-id="{{ user_id}}{{ member.id }}">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ member.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ member.item_name}}</a>
+                        </h3>
+                        {% if member.discount %}
+                        <span style="font-weight:550;">${{ member.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ member.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ member.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<section id="campus-sneakers-products" class="product-store py-2 my-2 py-md-5 my-md-5 pt-0">
+    <div class="container-md">
+        <div class="display-header d-flex align-items-center justify-content-between">
+            <h2 class="section-title text-uppercase">Campus Sneakers</h2>
+            <div class="btn-right">
+                <a href="{% url 'men-shoes' %}?filter=type04" class="d-inline-block text-uppercase text-hover fw-bold">View all</a>
+            </div>
+            {% if can_edit %}
+            <div class="btn-right">
+                <a href="/add_item" class="d-inline-block text-uppercase text-hover fw-bold">Add Product</a>
+            </div>
+            {% endif %}
+        </div>
+        <div class="product-content padding-small">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-5">
+                {% if not client %}
+                {% for product in sneakers_products %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+
+                        <div class="card-img action-wrapper">
+                            <a href="/show_detail/{{ product.id }}"><img src="{{ product.item_image.url }}"
+                                                                         alt="product-item"
+                                                                         class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ product.discount }}% off</span>
+                            {% if product.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if product.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="cart-concern position-absolute d-flex justify-content-center"
+                                 style="white-space: nowrap; bottom:151px;">
+                                <div class="message-container"
+                                     style="margin-top: 10px; border:none; border-radius:10px;"></div>
+                            </div>
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <button class="btn btn-light save-btn" data-client="false">
+                                        <i class="fa-regular fa-heart"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ product.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ product.item_name}}</a>
+                        </h3>
+                        {% if product.discount %}
+                        <span style="font-weight:550;">${{ product.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ product.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ product.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% elif user.username == 'admin' %}
+                {% for member in products %}
+                {% if member.item_brand == 'campus-sneakers' %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+                        <div class="card-img">
+                            <a href="/show_detail/{{ member.id }}"><img src="{{ member.item_image.url }}"
+                                                                        alt="product-item"
+                                                                        class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ member.discount }}% off</span>
+                            {% if member.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if member.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="pate position-absolute top-0 end-0">
+                                <a href="/delete_item/{{ member.id }}">
+                                    <button type="submit" class="btn-close" aria-label="Close">
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="pate position-absolute top-0 start-0" style="border:0px;">
+                                <a href="/edit_item/{{ member.id }}">
+                                    <button type="submit">Edit
+                                    </button>
+                                </a>
+                            </div>
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ member.id }}"/>
+                                        </div>
+                                        <button class="btn btn-light wishlist-btn" type="submit"
+                                                onclick="toggleHeart(this)"
+                                                data-id="{{ user_id}}{{ member.id }}">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ member.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ member.item_name}}</a>
+                        </h3>
+                        {% if member.discount %}
+                        <span style="font-weight:550;">${{ member.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ member.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ member.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                {% endfor %}
+                {% else %}
+                {% for member in sneakers_products %}
+                <div class="col mb-4 mb-3">
+                    <div class="product-card position-relative">
+                        <div class="card-img">
+                            <a href="/show_detail/{{ member.id }}"><img src="{{ member.item_image.url }}"
+                                                                        alt="product-item"
+                                                                        class="product-image img-fluid"></a>
+                            <span class="disc" style="width:55px;">{{ member.discount }}% off</span>
+                            {% if member.is_bestSeller %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:88px;"><i class="fa-solid fa-star"
+                                                                      style="color:orange; margin-right:5px;"></i>Best Seller</span>
+                            {% endif %}
+                            {% if member.is_newArrival %}
+                            <span class="BsNa-after"></span>
+                            <span class="BsNa" style="width:80px;">New Arrival</span>
+                            {% endif %}
+                            <div class="cart-concern position-absolute d-flex justify-content-center">
+                                <div class="cart-button d-flex gap-2 justify-content-center align-items-center">
+                                    <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ member.id }}"/>
+                                        </div>
+                                        <button class="btn btn-light wishlist-btn" type="submit"
+                                                onclick="toggleHeart(this)"
+                                                data-id="{{ user_id}}{{ member.id }}">
+                                            <i class="fa-regular fa-heart"></i>
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn btn-light"
+                                            data-bs-target="#modaltoggle{{ member.id }}" data-bs-toggle="modal">
+                                        <svg class="quick-view">
+                                            <use xlink:href="#quick-view"></use>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- cart-concern -->
+                        </div>
+                        <h3 class="card-title fs-6 fw-normal m-0">
+                            <a href="index.html" style="text-decoration:none;">{{ member.item_name}}</a>
+                        </h3>
+                        {% if member.discount %}
+                        <span style="font-weight:550;">${{ member.final_price }}</span>
+                        <span style="font-weight:400; color:grey; margin-left:5px;"><del>${{ member.item_price }}</del></span>
+                        <span style="color:#e30000; margin-left:5px;">sale</span>
+                        {% else %}
+                        <span style="font-weight:550;">${{ member.item_price }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; margin-bottom:50px;">
+    <iframe
+            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+            src="https://www.youtube.com/embed/2IoKZTDU_S4"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen>
+    </iframe>
+
+</div>
+<div id='mobile' class="container">
+    <div class="spaced-column" style="text-align:center;">
+        <div class="rte lightly-spaced-row "><p>Our customer support number is <strong>+919667706012</strong></p>
+            <p>Please note, this is distinct from our BIS License Number, which may resemble a mobile number. Displaying
+                the BIS License Number on our shoe boxes is mandatory under fair-trade practices and statutory
+                obligations, in a specified format and size. We appreciate your understanding.</p></div>
+    </div>
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'main/footer.html'%}
+{% endblock %}

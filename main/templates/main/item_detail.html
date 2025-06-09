@@ -1,0 +1,613 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block title %}
+<title>
+    Item Detail Page
+</title>
+<style>
+    .underdog-regular {
+      font-family: "Underdog", system-ui;
+      font-weight: 550;
+      font-style: normal;
+    }
+    .border-p{
+        border-top:1px solid #000;
+        border-bottom:1px solid #000;
+        border-left:1px solid #e0e0e0;
+        border-right:1px solid #e0e0e0;
+        margin-right:10px;
+        padding:7px 22px;
+    }
+
+    .border-x{
+        border-top:1px solid #000;
+        border-bottom:1px solid #000;
+        border-left:1px solid #e0e0e0;
+        border-right:1px solid #e0e0e0;
+        margin-right:10px;
+        padding:7px 22px;
+        position:relative;
+        background-color: #fff;
+        overflow: hidden;
+    }
+
+    .border-x::after {
+        content:'';
+        position:absolute;
+        width:1px;
+        height:67px;
+        transform: rotate(54deg);
+        top:-14px;
+        right:25px;
+        background-color:#f3f3f3;
+        z-index: 0;
+    }
+
+    .text-content{
+        position: relative;
+        z-index: 1;
+        background-color: #fff;
+    }
+
+    .border-p:hover{
+        border-top:1px solid #000;
+        border-bottom:1px solid #000;
+        border-left:1px solid #000;
+        border-right:1px solid #000;
+        margin-right:10px;
+        padding:7px 22px;
+    }
+    .border-img{
+        width:58px;
+        height:58px;
+        border:1px solid #e0e0e0;
+        padding:15px;
+    }
+
+    .hidden{
+        display: none;
+    }
+
+    .me-1:hover .hidden{
+        display: block;
+    }
+    a:hover {
+        cursor: pointer;
+    }
+    .quantity-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quantity-wrapper a {
+      cursor: pointer;
+      padding: 8px;
+      border:1px solid #000;
+    }
+
+    .quantity-wrapper input {
+      width: 40px;
+      padding: 8px;
+      text-align: center;
+      border:1px solid #000;
+    }
+    #formid input{
+        border-radius: 0px;
+        border-width: 1px;
+        border-color: #afafaf;
+        width: 220px;
+        border-style:solid;
+    }
+    #formid button{
+        border-radius: 0px;
+        border-width: 1px;
+        border-color: #afafaf;
+        border-style: solid;
+        background-color: #1c1d45;
+        color: #ffffff;
+    }
+    #custom-cart {
+        width: 100%;
+        display: inline-block;
+        text-align: center;
+        text-transform: uppercase;
+        color: #000;
+        letter-spacing: 1px;
+        line-height: 30px;
+        background: #6fb4ba;
+        cursor: pointer;
+        border: 1px solid #212b36;
+        min-height: 48px;
+        margin-bottom: 20px;
+        margin-right: 60px;
+    }
+    #custom-cart:hover{
+        color: #fff;
+    }
+    #rzp-button {
+        display: inline-block;
+        width: 50%;
+        text-align: center;
+        text-transform: uppercase;
+        color: #212b36;
+        letter-spacing: 1px;
+        line-height: 48px;
+        cursor: pointer;
+        background: #fff;
+        border: 1px solid #212b36;
+        min-height: 48px;
+        margin-bottom: 20px;
+    }
+    #rzp-button:hover {
+        color: #fff;
+    }
+    .border-img-lg {
+        width:100px;
+        height:140px;
+        cursor: pointer;
+    }
+    #long-content {
+        overflow: auto;
+        height: 100vh;
+        position: relative;
+    }
+    .hiddenForm{
+            display: none;
+    }
+
+    .vibrate-text {
+        animation: vibrateSmooth 0.7s ease-in-out 1;
+        color: red;
+        font-weight: bold;
+    }
+
+    @keyframes vibrateSmooth {
+        0%   { transform: translateX(0); }
+        20%  { transform: translateX(-8px); }
+        40%  { transform: translateX(8px); }
+        60%  { transform: translateX(-8px); }
+        80%  { transform: translateX(8px); }
+        100% { transform: translateX(0); }
+    }
+    #loader {
+            display: none;
+            color: green;
+    }
+</style>
+{% endblock %}
+
+{% block header %}
+{% include 'main/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="modal fade" id="modalsizeguide" aria-hidden="true" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen-md-down modal-md modal-dialog-centered">
+        <div class="modal-content">
+            <div class="col-lg-10 col-md-10 me-3">
+                <a href="#"><img src="{% static 'images/foot-size-guide.jpg' %}"
+                                 style="width:466px; height:466px;" alt="Shoes"></a>
+            </div>
+            <div class="col-lg-1 col-md-1">
+                <div class="modal-close-btn">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container underdog-regular pt-4 mb-5">
+    <div class="row" style="padding-top:125px;">
+        <div class="col-lg-7">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div>
+                        {% for image in images %}
+                        {% if image.item_id == product.id %}
+                        <div class="me-1 mb-1">
+                            <div data-image="{{ image.item_image.url }}"
+                                 onclick="updateSideImage(this)">
+                                <img src="{{ image.item_image.url }}"
+                                     class="border-img-lg image-caption">
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <img id="color-options-image" src="{{ product.item_image.url }}" class="img-fluid"/>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 offset-1">
+            <div id="long-content" class="flex-grow-1" style="height: 100vh; overflow: hidden;">
+                <div id="head">
+                    <h3 class="mb-2 underdog-regular">{{ product.item_name }}</h3>
+                    <div class="d-flex ">
+                        <p class="text-danger mb-1 me-4">PRICE<span class="ms-2">${{ product.final_price }}</span></p>
+                        <p class="text-danger mb-1">M.R.P<span class="ms-2"><del>${{ product.item_price }}</del></span>
+                        </p>
+                    </div>
+                    <p style="opacity:0.5; font-size: 0.75rem;  padding-bottom: 15px; border-bottom: 1px solid #000;">
+                        inclusive
+                        of all taxes</p>
+                </div>
+
+                <div id="variant">
+                    <p class="mb-1">colors</p>
+                    <div class="d-flex flex-wrap">
+                        {% for variant in variants %}
+                        {% if variant.item_id == product.id %}
+                        <div class="me-1 mb-3">
+                            <a href="#">
+                                <div data-title="{{ variant.item_name }}"
+                                     data-color="" onmouseover="updateTitle(this)" onmouseout="resetTitle()">
+                                    <img src="{{ variant.item_image.url }}" class="border-img"
+                                         style="border:1px solid #000">
+                                </div>
+                            </a>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div id="color-options-title" class="mb-3">{{ product.item_name }}</div>
+                </div>
+
+                <div id="size">
+                    <div class="d-flex">
+                        <p class="mb-1">size(UK)</p>
+                        <a data-bs-target="#modalsizeguide" data-bs-toggle="modal"
+                           class="mb-1 ms-auto text-decoration-underline">size Guide</a>
+                    </div>
+                    {% with product|available_sizes_string:available_sizes as size_list %}
+                    {% with size_list|split:" " as size_array %}
+                    <div class="d-flex">
+                        {% if '6' in size_array %}
+                        <div onclick="changeStyle(this)">
+                            <p class="border-p size">6</p>
+                        </div>
+                        {% else %}
+                        <div onclick="notifySize()">
+                            <p class="border-x"><span class="text-content">6</span></p>
+                        </div>
+                        {% endif %}
+                        {% if '7' in size_array %}
+                        <div onclick="changeStyle(this)">
+                            <p class="border-p size">7</p>
+                        </div>
+                        {% else %}
+                        <div onclick="notifySize()">
+                            <p class="border-x"><span class="text-content">7</span></p>
+                        </div>
+                        {% endif %}
+                        {% if '8' in size_array %}
+                        <div onclick="changeStyle(this)">
+                            <p class="border-p size">8</p>
+                        </div>
+                        {% else %}
+                        <div onclick="notifySize()">
+                            <p class="border-x"><span class="text-content">8</span></p>
+                        </div>
+                        {% endif %}
+                        {% if '9' in size_array %}
+                        <div onclick="changeStyle(this)">
+                            <p class="border-p size">9</p>
+                        </div>
+                        {% else %}
+                        <div onclick="notifySize()">
+                            <p class="border-x"><span class="text-content">9</span></p>
+                        </div>
+                        {% endif %}
+                        {% if '10' in size_array %}
+                        <div onclick="changeStyle(this)">
+                            <p class="border-p size">10</p>
+                        </div>
+                        {% else %}
+                        <div onclick="notifySize()">
+                            <p class="border-x"><span class="text-content">10</span></p>
+                        </div>
+                        {% endif %}
+                    </div>
+                    {% endwith %}
+                    {% endwith %}
+                </div>
+                <p id="sizeSelector" class='vibrate-text' style="display:none; padding:0px 10px;">Select a Size</p>
+                <p id="sizeSelector2"></p>
+                <div id="notifyMe" class="notify">Notify me When Available</div>
+
+                <div id="Qnt">
+                    <p class="mb-1">Quantity</p>
+                    <div class="quantity-wrapper">
+                        <a href="#" data-quantity="down">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-minus"><title>Minus</title>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </a>
+                        <input aria-label="Quantity" id="quantity" type="text" name="quantity" value="1">
+                        <a href="#" data-quantity="up">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                 fill="none"
+                                 stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+                                 class="feather feather-plus"><title>Plus</title>
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div id="pincode">
+                    <div class="mt-4">
+                        <object type="image/svg+xml"
+                                data="https://www.risingsigma.com/zippy-v2/assets/img/icons/svg/1.svg"></object>
+                        <span id="delhivery"
+                              style="color: #746767; font-size: 14px;">Check delivery at your location</span>
+                    </div>
+                    <div>
+                        <form id="formid">
+                            <input id="pin" type="text" placeholder="Enter your pincode" autocomplete="off"
+                                   maxlength="8">
+                            <button style="background-color:#3f426e; color:white;" id="checkPin" type="submit">
+                                Check
+                            </button>
+                        </form>
+                    </div>
+                    <div id="result1" onclick='knowMore()'
+                         style="margin-top: 10px; color:#7ebff5; font-weight: bold;"></div>
+
+                    <div id="result2" style="color:#507a51; font-weight: bold; display:none;"></div>
+                </div>
+                <div class="d-flex gap-3 mt-3">
+                    <form class="cart-form" action="/cartlist-toggle/" method="POST">
+                        {% csrf_token %}
+                        <div class="hiddenForm">
+                            <input type="number" name='item_quantity' value="1"/>
+                            <input type="number" name='user_id' value="{{ user_id }}"/>
+                            <input type="number" name='item_id' value="{{ product.id }}"/>
+                            <input type="number" id='shoeSize' name='item_size' value="7"/>
+                        </div>
+                        <button type="submit" text-id="{{ user.id }}_{{ product.id }}"
+                                onclick="return handleSubmit(event, this);"
+                                class="btn btn-black hvr-sweep-to-right cart-form button"
+                                style="width: 100%; padding:0.8em 2.5em">
+                            Add to cart
+                        </button>
+                    </form>
+                    <span id="rzp-button" class="hvr-sweep-to-right">Buy Now</span>
+                </div>
+                <div id="loader">Processing payment...</div>
+                <form class='wish-form' action="/wishlist-toggle/" method="POST">
+                    {% csrf_token %}
+                    <div class="hiddenForm">
+                        <input type="number" name='user_id' value="{{ user_id }}"/>
+                        <input type="number" name='item_id' value="{{ product.id }}"/>
+                    </div>
+                    <button class="d-flex" type="submit" onclick="toggleHeart(this)"
+                            data-id="{{ user_id }}{{ product.id }}" style="border:none; background:#fff;">
+                        <i class="fa-regular fa-heart"></i>
+                        <span>Add to Wishlist</span>
+                    </button>
+                </form>
+                <div>
+                    <div class="d-flex mt-3 mb-3">
+                        <div>
+                            <img src="https://cdn.shopify.com/s/files/1/0607/6678/1671/files/Component_19_1.svg?v=1698304874"
+                                 width="26" height="23" alt="Secure Payment">
+                            <span>Secure Payment</span>
+                        </div>
+
+                        <div>
+                            <img src="https://cdn.shopify.com/s/files/1/0607/6678/1671/files/Component_17_1.svg?v=1698304874"
+                                 width="31" height="21" alt="Free Shipping">
+                            <span>Free Shipping</span>
+                        </div>
+
+                        <div>
+                            <img src="https://cdn.shopify.com/s/files/1/0607/6678/1671/files/Component_18_1.svg?v=1698304875"
+                                 width="24" height="24" alt="Return">
+                            <span>15 Days Return</span>
+                        </div>
+                    </div>
+                    <div><p>Take on those extra miles in comfort and style with Mike
+                        Men's Running Shoes by Campus. Scienced with Air Capsule Technology and featuring memory foam
+                        insole, these shoes provide unmatched comfort, energized cushioning, and shock absorption
+                        underfoot
+                        with the added rebound to help you go further than you thought possible. The anti-slip sole
+                        design
+                        ensures your steps are secured on any surface, while the EVA sole makes it highly durable. The
+                        black
+                        and golden colorway, topped with a lace-up closure, takes the style quotient up a notch,
+                        delivering
+                        both high fashion and performance in a go.</p>
+                        <p><span data-mce-fragment="1"><strong> Occasion: </strong>Everyday<br><strong>Insole: </strong>Super Soft <br>
+                                <strong>Care Instructions: </strong>Wash in Lukewarm Water. Do Not Bleach<br><strong>Upper Material: </strong>Mesh<br><strong>Marketed by: </strong>Campus Activewear Ltd. D1, Udyog Nagar, Main Rohtak Road, New Delhi, Delhi, 110041<br><strong>Country of Origin: </strong>India</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block footer %}
+{% include 'main/footer.html' %}
+
+<!--when it hovers the variants of shoes its change  name of shoes according to shoes variant-->
+<script>
+    const originalTitle = document.getElementById("color-options-title").textContent;
+
+    function updateTitle(element) {
+      const title = element.getAttribute("data-title");
+      document.getElementById("color-options-title").textContent = `${title}`;
+    }
+
+    function resetTitle() {
+      document.getElementById("color-options-title").textContent = originalTitle;
+    }
+</script>
+
+<!--side image bar-->
+<script>
+    const originalImageSrc = document.getElementById("color-options-image").src;
+
+    function updateSideImage(element) {
+
+      const newImageSrc = element.getAttribute("data-image"); // Get the new image source from the data attribute
+      document.getElementById("color-options-image").src = newImageSrc; // Update the image source
+
+       const allContainers = document.querySelectorAll(".image-caption");
+        allContainers.forEach(container => {
+            container.style.borderBottom = "none";
+        });
+
+        // Add border to the clicked one
+        const caption = element.querySelector('.image-caption');
+        caption.style.borderBottom = '2px solid #000';
+    }
+</script>
+
+<!--shoes size background-->
+<script>
+    function changeStyle(element) {
+        // make selectSize to none
+       const selectSize = document.getElementById('sizeSelector');
+       selectSize.style.display = 'none';
+       //make notifyMe none
+       document.getElementById('notifyMe').style.display = 'none';
+       const allContainers = document.querySelectorAll(".size");
+       //delete sizeSelected id and remove border
+        allContainers.forEach(container => {
+            container.style.background = "none";
+            container.style.color = "#000";
+            container.id = '';
+        });
+
+        // Add border and sizeSelected to the clicked one
+        const caption = element.querySelector('.size');
+        const size = caption.textContent;
+        caption.style.background = '#000';
+        caption.style.color = '#fff';
+        caption.id = 'sizeSelected';
+
+        //set value to ShoeSize input
+        const inputTarget = document.getElementById('shoeSize');
+        inputTarget.value = caption.innerText;
+
+        //set textId
+        const cartButton = document.querySelector('.cart-form button');
+        const [userId, productId] = cartButton.getAttribute('text-id').split('_');
+        cartButton.setAttribute('text-id', `${userId}_${productId}_${size}`);
+
+
+        //watch text-id is selected or not
+        const textId = cartButton.getAttribute('text-id');
+        const state = localStorage.getItem(`cartB-${textId}`);
+
+        if (state === 'Added to Cart') {
+          cartButton.innerText = 'Added to Cart';
+          cartButton.classList.remove('btn-black', 'hvr-sweep-to-right');
+          cartButton.classList.add('btn-success');
+          cartButton.style.padding = '0.8em 1.5em';
+        } else {
+          cartButton.innerText = 'Add to Cart';
+          cartButton.classList.remove('btn-success');
+          cartButton.classList.add('btn-black', 'hvr-sweep-to-right');
+          cartButton.style.padding = '0.8em 2.5em';
+        }
+
+    }
+
+    function handleSubmit(event, button) {
+        const selectSize = document.getElementById('sizeSelector');
+        const condition = document.getElementById('sizeSelected'); // replace with your logic
+        if (condition) {
+            // Add to Cart and Added to Cart
+            const textId = button.getAttribute('text-id');
+            if (button.innerText === 'Added to Cart') {
+              button.innerText = 'Add to Cart';
+              button.classList.remove('btn-success');
+              button.classList.add('btn-black', 'hvr-sweep-to-right');
+              button.style.padding = '0.8em 2.5em';
+              localStorage.setItem(`cartB-${textId}`, 'Add to Cart');
+            } else {
+              button.innerText = 'Added to Cart';
+              button.classList.remove('btn-black', 'hvr-sweep-to-right');
+              button.classList.add('btn-success');
+              button.style.padding = '0.8em 1.5em';
+              localStorage.setItem(`cartB-${textId}`, 'Added to Cart');
+            }
+
+            return true;  // allow form submission
+        } else {
+            event.preventDefault(); // stop form submission
+            selectSize.style.display = 'block';
+
+            selectSize.classList.remove('vibrate-text');
+            void selectSize.offsetWidth; // Force reflow
+            selectSize.classList.add('vibrate-text');
+
+            return false;
+        }
+    }
+</script>
+
+<!--shoes size not Available-->
+<script>
+    function notifySize() {
+        const allContainers = document.querySelectorAll(".size");
+        const cartButton = document.querySelector('.cart-form button');
+        allContainers.forEach(container => {
+            container.style.background = "none";
+            container.style.color = "#000";
+            container.id = '';
+        });
+        const item = document.getElementById('notifyMe');
+        item.style.display = 'inline-block';
+        cartButton.innerText = 'Add to Cart';
+        cartButton.classList.remove('btn-success');
+        cartButton.classList.add('btn-black', 'hvr-sweep-to-right');
+        cartButton.style.padding = '0.8em 2.5em';
+    }
+</script>
+
+<!--increase or decrease quantity of product-->
+<script>
+    document.querySelectorAll('.quantity-wrapper a').forEach(btn => {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const input = this.parentElement.querySelector('input[name="quantity"]');
+        let value = parseInt(input.value) || 0;
+        if (this.dataset.quantity === "up") {
+          value++;
+        } else if (this.dataset.quantity === "down" && value > 1) {
+          value--;
+        }
+        input.value = value;
+      });
+    });
+</script>
+
+<!--for only one part (long one) get scroll-->
+<script>
+    window.addEventListener('scroll', function() {
+        var longContent = document.getElementById('long-content');
+        var scrollPosition = window.scrollY; // Gets the scroll position of the page
+        longContent.scrollTop = scrollPosition; // Sets the scroll position of the long content
+    });
+</script>
+
+
+
+
+{% endblock %}

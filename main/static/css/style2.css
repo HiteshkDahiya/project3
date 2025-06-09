@@ -1,0 +1,375 @@
+.hiddenForm{
+    display: none;
+}
+
+/*-------------css for moving slide----------------*/
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+.slider-container {
+  width: 400vw;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider {
+  display: flex;
+  width: 400vw /* 4 slides x 100vw */
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  width: 100vw;
+  height: 95vh;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  color: white;
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.5s ease-out;
+}
+
+
+
+/*-------------css for dropdown contact----------------*/
+.dropdown2 {
+  position: relative;
+  display: block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 160px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  z-index: 1;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  display: block;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown-content.show {
+  display: block;
+}
+
+/*-------------css for dropdown filter----------------*/
+.dropdown-filter {
+  position: relative;
+  display: block;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.dropdown-button {
+    cursor:pointer;
+    font-weight:900;
+    display:flex;
+    justify-content: space-between;
+    text-decoration:none;
+}
+
+
+.dropdown-content2 {
+  display: none;
+  position: absolute;
+  min-width: 160px;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.dropdown-content2 a {
+  color: black;
+  padding: 6px 16px;
+  display: block;
+  text-decoration: none;
+}
+
+
+
+.dropdown-content2.show {
+  display: block;
+  margin-top: 10px; /* separates dropdown items from the button */
+  position: static;
+}
+
+
+.moving-border {
+  height: 0.2px;
+  width: 260px;
+  margin-top: 20px;
+  background-color: grey;
+  position: absolute;
+  left: 0;
+  right: 0;
+  transition: top 0.3s ease;
+}
+
+/*-----------------CSS for color -------------*/
+.shoe-color {
+    font-size:30px;
+    border:0.5px solid grey;
+    border-radius:50%;
+    padding: 2px;
+    margin:4px;
+    font-weight:700px;
+    display:block;
+}
+
+/*-----------------CSS for filters -------------*/
+.filterType {
+    display:none;
+    border:none;
+    background:#f2f2f2;
+    padding:1px 12px 1px 12px;
+    border-radius: 15px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+#filterBar {
+  display: none !important;
+}
+
+#filterBar.show {
+  display: flex !important;
+}
+
+.filter-input {
+    height:15px;
+    width:15px;
+    accent-color: grey;
+    pointer: cursor;
+}
+
+.filter-label {
+    display:block;
+    margin-bottom: 8px;
+    cursor: pointer;
+}
+
+.filter-input-color {
+    height:10px;
+    width:10px;
+    accent-color: #f5f5f5;
+    position: absolute;
+    top:5px;
+    left:5px;
+}
+
+.filter-label-color {
+    display:inline-block;
+    margin-bottom: 8px;
+    cursor: pointer;
+    position: relative;
+}
+
+
+/*----------------- items by category -------------*/
+.buy {
+    display: none; /* or block */
+    position: absolute;
+    bottom: 15px;
+    left: 10px; /* use left instead of margin-left */
+    font-size: 14px;
+    border: 1px solid grey;
+    color: grey;
+    background-color: white;
+    padding: 8px 85px;
+    text-align: center;
+    text-decoration: none; /* remove underline */
+}
+
+.footWear{
+    text-align: center;
+}
+
+.imgFootwear{
+    height:331.88px;
+    width:269.5px;
+    padding:10px;
+    position: relative;
+}
+
+.heart {
+    position: absolute;
+    top:5px;
+    right:15px;
+    color:#8c8c8c;
+    cursor:pointer;
+    font-size:25px;
+}
+
+.disc {
+    position: absolute;
+    top:5px;
+    left:15px;
+    background:#e30000;
+    color:#fff;
+    font-size:12px;
+    font-weight:800;
+    padding:3px;
+    height: 25px;
+    width: 60px;
+}
+
+.BsNa{
+    position: absolute;
+    bottom:83px;
+    right:15px;
+    background:#e30000;
+    color:#fff;
+    font-size:12px;
+    font-weight:500;
+    height: 18px;
+    width: 100px;
+    padding:0px 0px 1px 0px;
+}
+
+.BsNa-after {
+    position:absolute;
+    bottom:80px;
+    right:15px;
+    width:110px;
+    height:2px;
+    border-width: 11px;
+    border-style: solid;
+    border-color: #e30000 #e30000 #e30000 white;
+    margin-left:0px;
+
+}
+
+.footWear:hover a {
+    display: inline-block;
+}
+
+.wishlist-btn {
+    background: #f7f7f7;
+    border: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.border-s{
+        border-top:1px solid #dadada;
+        border-bottom:1px solid #dadada;
+        border-left:1px solid #e0e0e0;
+        border-right:1px solid #e0e0e0;
+        margin-right:10px;
+        padding:7px 2px 7px 22px;
+        width:200px;
+        height:40px;
+        color:grey;
+        font-size:14px;
+    }
+
+.sortMenu {
+    display:none;
+    position:absolute;
+    background:white;
+    z-index:1;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    text-align:right;
+    margin-top: 15px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.sortMenu::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: 82%;
+  transform: translateX(-50%);
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent #e9e6e6 transparent; /* black arrow pointing down */
+}
+
+/* White triangle overlay to match box background */
+.sortMenu::after {
+  content: "";
+  position: absolute;
+  top: -18px;
+  left: 82%;
+  transform: translateX(-50%);
+  border-width: 9px;
+  border-style: solid;
+  border-color: transparent transparent white transparent;
+}
+
+.sortMemuItem {
+    display:block;
+    padding:5px 10px;
+    color:#adadad;
+}
+.notify {
+    width:400px;
+    height:50px;
+    background-color:black;
+    color:white;
+    text-align:center;
+    text-justify: center;
+    line-height: 50px;
+    display:none;
+}
+
+.notify:hover {
+    background-color:white;
+    color:black;
+    border:1px solid black;
+}
+
+.sizeMenu {
+    display:block;
+    width:150px;
+    height:20px;
+    padding-left:5px;
+    font-size:15px;
+    margin:0;
+}
+
+.sizeMenu2 {
+    background-color:white;
+    display:none;
+    border:1px solid black;
+    box-shadow: 0 0 10px 2px rgba(0, 123, 255, 0.7);
+    border-radius:4px;
+    position:absolute;
+    z-index:10;
+}
+
+.sizeMenu3 {
+    background-color: white;
+    display:block;
+    width:151px;
+    height:31px;
+    padding:4px;
+    font-size:15px;
+    margin:0;
+
+}
+
+.sizeMenu3:hover {
+    background-color: blue;
+    color: white;
+}

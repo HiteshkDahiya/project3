@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Item</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+</head>
+<body>
+<div class="container">
+    <div>
+        Welcome Admin <h4 class="alert alert-info">Edit a Item</h4>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+<!--        <label for="image" class="form-label">Add image:</label>-->
+<!--        first use {{ product.item_image.url }}-->
+<!--        <input class="form-control mb-4" type="file" accept="image/*" name="item_image" id="image"/>-->
+        <label for="name" class="form-label">Add item Name:</label>
+        <input class="form-control mb-4" type="text" name="item_name" id="name" value='{{ product.item_name }}'/>
+        <label for="quantity" class="form-label">Add total item no.:</label>
+        <input class="form-control mb-4" type="number" name="item_total" id="quantity"
+               value='{{ product.item_total }}'/>
+        <label for="price" class="form-label">Add item price:</label>
+        <input class="form-control mb-4" type="number" name="item_price" id="price" value='{{ product.item_price }}'/>
+        <label for="color" class="form-label">Add item color:</label>
+        <input class="form-control mb-4" type="text" name="item_price" id="color" value='{{ product.item_color }}'/>
+        <label>
+            <input class="mb-4" type="checkbox" name="is_bestSeller" {% if product.is_bestSeller %}checked{% endif %}>
+            Best Seller
+        </label>
+        <label>
+            <input class="mb-4" type="checkbox" name="is_newArrival" {% if product.is_newArrival %}checked{% endif %}>
+            New Arrival
+        </label>
+        <label>
+            <input class="mb-4" type="checkbox" name="is_newArrival" {% if product.is_newArrival %}checked{% endif %}>
+            size 6
+        </label>
+        <label>
+            <input class="mb-4" type="checkbox" name="is_newArrival" {% if product.is_newArrival %}checked{% endif %}>
+            size 7
+        </label>
+        <label>
+            <input class="mb-4" type="checkbox" name="is_newArrival" {% if product.is_newArrival %}checked{% endif %}>
+            size 8
+        </label>
+        <label>
+            <input class="mb-4" type="checkbox" name="is_newArrival" {% if product.is_newArrival %}checked{% endif %}>
+            size 9
+        </label>
+        <label>
+            <input class="mb-4" type="checkbox" name="is_newArrival" {% if product.is_newArrival %}checked{% endif %}>
+            size 10
+        </label>
+
+        <div class="d-flex justify-content-between flex-wrap gap-2">
+            <div class="d-flex gap-2">
+                <input class="btn btn-success" type="submit" value="Submit"/>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="/add_images/{{ product.id }}" class="btn btn-info">More Images</a>
+                <a href="/add_variants/{{ product.id }}" class="btn btn-info">Variants</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

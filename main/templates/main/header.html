@@ -1,0 +1,144 @@
+{% load static %}
+<header id="header" class="site-header text-black">
+    <div class="header-top border-bottom py-2">
+        <div>
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="me-auto" style="padding-left:40px; padding-right:124px;">
+                    <a href="#" class="search-item border-0" data-bs-toggle="collapse" data-bs-target="#search-box"
+                       aria-label="Toggle navigation"  style="text-decoration:none;">
+                        <svg class="search" width="24" height="24">
+                            <use xlink:href="#search"></use>
+                        </svg>
+                        <span class="ms-2">search</span>
+                    </a>
+                </div>
+                <div class="mx-auto" style="padding-left:90px;">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="{% static 'images/logo2.jpg' %}" style="width:220px; height:66px;" class="logo"
+                             alt="logo">
+                    </a>
+                </div>
+                <div class=" ms-auto me-4 mt-3 d-flex align-items-center" style="font-size:14px;">
+                    <ul class="d-flex justify-content-end align-items-center gap-2 list-unstyled ">
+                        <li class="pe-3">
+                            <a href="login" data-bs-toggle="modal" data-bs-target="#modallogin" class="border-0" style="text-decoration:none;">
+                                Welcome {{ user.username }}
+                                <svg class="user" width="24" height="24">
+                                    <use xlink:href="#user"></use>
+                                </svg>
+                            </a>
+                        </li>
+                        <li class="pe-3">
+                            <div style="position:relative;">
+                                <a href="/show_cart/" style="text-decoration:none;">Cart
+                                    <svg class="shopping-cart" width="24" height="24">
+                                        <use xlink:href="#shopping-cart"></use>
+                                    </svg>
+                                </a>
+                                <h1 id="cartlist-count" class="bg-danger text-white"
+                                    style="border:none; border-radius:50%; padding: 3px; font-size:10px; position:absolute; top:0; left:50px;">
+                                    {{total_cis}}
+                                </h1>
+                            </div>
+                        </li>
+                        <li>
+                            <div style="position:relative;">
+                                <a href="/show_wish/" style="text-decoration:none;">Wishlist <i class="fa-regular fa-heart"
+                                                                  style="font-size:20px;"></i></a>
+                                <h1 id="wishlist-count" class="bg-danger text-white"
+                                    style="border:none; border-radius:50%; padding: 3px; font-size:10px; position:absolute; top:0; left:70px;">
+                                    {{total_wis}}</h1>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="dropdown2">
+                                <a onclick="toggleDropdown()" class="dropdown-button2 ms-2" style="cursor:pointer; text-decoration:none;">contact</a>
+                                <div class="dropdown-content dropdownMenu2">
+                                    <a href="{% url 'mail' %}"><i class="fa-regular fa-envelope"></i>-mail</a>
+                                    <a href="/#mobile"><i class="fa-solid fa-phone"></i>-mobile</a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <nav id="header-nav" class="navbar navbar-expand-lg">
+        <div class="container-lg">
+            <button class="navbar-toggler d-flex d-lg-none order-3 border-0 p-1 ms-2" type="button"
+                    data-bs-toggle="offcanvas"
+                    data-bs-target="#bdNavbar" aria-controls="bdNavbar" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <svg class="navbar-icon">
+                    <use xlink:href="#navbar-icon"></use>
+                </svg>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="bdNavbar">
+                <div class="offcanvas-header px-4 pb-0">
+                    <a class="navbar-brand ps-3" href="index.html">
+                        <img src="{% static 'images/main-logo.png' %}" class="logo" alt="logo">
+                    </a>
+                    <button type="button" class="btn-close btn-close-black p-5" data-bs-dismiss="offcanvas"
+                            aria-label="Close"
+                            data-bs-target="#bdNavbar"></button>
+                </div>
+                <div class="offcanvas-body d-flex justify-content-center align-items-center mt-0">
+                    <ul id="navbar" class="navbar-nav fw-bold d-flex justify-content-center align-items-center flex-grow-1">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link me-5 " href="/"
+                               aria-expanded="false">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="/men_shoes/">Men</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="/women_shoes/" >Women</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link me-5 active dropdown-toggle border-0" href="#" data-bs-toggle="dropdown"
+                               aria-expanded="false">Page</a>
+                            <ul class="dropdown-menu fw-bold">
+                                <li>
+                                    <a href="index.html" class="dropdown-item">About Us </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="index.html">Shop </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="index.html">Blog </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="index.html">Single
+                                        Product </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="index.html">Single Post </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="/testing/">Styles(testing) </a>
+                                </li>
+                                <li>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modallong"
+                                       class="dropdown-item">cart</a>
+                                </li>
+                                <li>
+                                    <a href="#" data-bs-toggle="modal" data-bs-target="#modallogin"
+                                       class="dropdown-item">Login</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5" href="/#latest-products">Shop</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link me-5 btn" href="/#sale"
+                               onclick="document.getElementById('sale').scrollIntoView({ behavior: 'smooth' });"
+                              >Sale</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>

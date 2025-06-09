@@ -1,0 +1,110 @@
+{% extends 'main/base.html' %}
+{% load static %}
+
+{% block title %}
+<title>
+    Wish list items
+</title>
+
+
+{% endblock %}
+
+{% block header %}
+{% include 'main/header.html' %}
+{% endblock %}
+
+{% block content %}
+<div class="modal-content" style="padding-top:120px;">
+    <div class="text-center  border-top">
+        <h2 class="modal-title text-center my-5 fs-5">Wish list items</h2>
+    </div>
+    {% if wish_items %}
+    <div class="modal-body container">
+
+        <div class="d-flex  border-bottom">
+            <div class="col-lg-5 d-flex col-md-5 col-sm-5 me-4"><b>Product</b></div>
+            <div class="col-lg-4 col-md-4 d-flex col-sm-4 offset-3"><b
+                    style="margin-left:80px; margin-right:40px;">price</b><b style="margin-left:81px;">Action</b></div>
+        </div>
+        <div class="shopping-cart-content">
+            <div class="shopping-cart ">
+
+                {% for item in wish_items %}
+                <div class="wishList-item" id="item-{{ item.id }}">
+                    <div class="mini-cart cart-list p-0 mt-3">
+                        <div class="mini-cart-item d-flex  border-bottom pb-3">
+                            <div class="col-lg-5 d-flex col-md-5 col-sm-5 me-4">
+                                <a href="/show_detail/{{ item.item_id }}" title="product-image" class="me-4">
+                                    <img src="{{ item.item.item_image.url }}" style="height:75px;"
+                                         class="img-fluid"
+                                         alt="single-product-item">
+                                </a>
+                                <div>
+                                    <h4 class="product-title fs-6 me-5">{{ item.item.item_name }}</h4>
+                                    <div class="d-flex">
+                                        <div>{{ item.item.item_color }} /</div>
+                                        <div style="position:relative; margin-left:10px;">
+                                            <div  onclick="openSizeMenu(this)"
+                                                 style="border:1px solid black; border-radius:4px; display:block;" class="toggleSize"><span
+                                                    class="sizeMenu">7</span></div>
+                                            <div  class="sizeMenu2">
+                                                <span onclick=sizeItem(this); class="sizeMenu3">6</span>
+                                                <span onclick=sizeItem(this); class="sizeMenu3">7</span>
+                                                <span onclick=sizeItem(this); class="sizeMenu3">8</span>
+                                                <span onclick=sizeItem(this); class="sizeMenu3">9</span>
+                                                <span onclick=sizeItem(this); class="sizeMenu3">10</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 d-flex col-sm  offset-3 product-box quantity-box">
+                                <div class="price-code d-flex align-items-center me-5" style="margin-left:70px;">
+                                    $<span class="product-price fs-6 price ">{{ item.final_price }}</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center ">
+                                    <form class="cart-form" action='/cartlist-toggle/' method="POST">
+                                        {% csrf_token %}
+                                        <div class="hiddenForm">
+                                            <input type="number" name='item_quantity' value="1"/>
+                                            <input type="number" name='user_id' value="{{ user.id }}"/>
+                                            <input type="number" name='item_id' value="{{ item.item_id }}"/>
+                                            <input type="number" class='shoeSize' name='item_size' value="7"/>
+                                        </div>
+                                        <button type="submit" onclick="changeButtonText(this)"
+                                                text-id="{{ user.id }}_{{ item.item_id }}"
+                                                class="btn btn-medium btn-black hvr-sweep-to-right cart-form button">
+                                            Add to cart
+                                        </button>
+                                    </form>
+                                </div>
+
+                                <!-- quantity-price -->
+                            </div>
+                        </div>
+                    </div>
+                    <a href="#" class="delete-wish-link text-danger" data-id="{{ item.id }}"
+                       data-itemid="{{ item.user_id }}{{ item.item_id }}">remove</a>
+                </div>
+                {% endfor %}
+                <div class="modal-footer my-4 justify-content-center">
+                    <button type="button" class="btn btn-red hvr-sweep-to-right dark-sweep">View Cart</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-center">
+        <p>No products available.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block footer %}
+{% include 'main/footer.html' %}
+{% endblock %}

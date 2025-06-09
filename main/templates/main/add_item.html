@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Item</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}"/>
+</head>
+<body>
+<div class="container">
+    {% if messages %}
+    <div id="msg-container" class="position-fixed top-0 start-50 translate-middle-x mt-3 z-3">
+        {% for message in messages %}
+        <div class="alert {% if message.tags == 'error' %}alert-danger {% else %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show"
+             role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div>
+        Welcome Admin <h4 class="alert alert-info">Add a Item</h4>
+    </div>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="brand" class="form-label">Add brand name:</label>
+        <input class="form-control mb-4" type="text" name="item_brand" id="brand"/>
+        <label for="image" class="form-label">Add image:</label>
+        <input class="form-control mb-4" type="file" accept="image/*" name="item_image" id="image"/>
+        <label for="name" class="form-label">Add item Name:</label>
+        <input class="form-control mb-4" type="text" name="item_name" id="name"/>
+        <label for="quantity" class="form-label">Add Total items no.:</label>
+        <input class="form-control mb-4" type="number" name="item_total" id="quantity"/>
+        <label for="price" class="form-label">Add item price:</label>
+        <input class="form-control mb-4" type="number" name="item_price" id="price"/>
+        <div class="d-flex justify-content-between flex-wrap gap-2">
+            <div class="d-flex gap-2">
+                <input class="btn btn-success" type="submit" value="Submit"/>
+                <a href="/" class="btn btn-info">Back Home</a>
+            </div>
+            <div class="d-flex gap-2">
+                <a href="/" class="btn btn-info">More Images</a>
+                <a href="/" class="btn btn-info">Variants</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+<script>
+    setTimeout(() => {
+        const msgContainer = document.getElementById('msg-container');
+        if (msgContainer) {
+            msgContainer.style.display = 'none';
+        }
+    }, 1000); // Hides after 1 second
+</script>
+</body>
+</html>

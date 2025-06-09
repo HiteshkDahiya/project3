@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Invoice</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            margin: 40px;
+            font-size: 14px;
+        }
+        .invoice-box {
+            border: 1px solid #eee;
+            padding: 30px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+        }
+        .logo {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        .company-details {
+            float: right;
+            text-align: right;
+        }
+        .title {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .details th, .details td {
+            text-align: left;
+            padding: 8px;
+        }
+        .summary {
+            margin-top: 30px;
+        }
+        .summary td {
+            padding: 8px;
+        }
+        .summary td.label {
+            font-weight: bold;
+            background-color: #f0f0f0;
+        }
+        .footer {
+            margin-top: 50px;
+            font-size: 13px;
+            text-align: center;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="invoice-box">
+    <table width="100%">
+        <tr>
+            <td>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ab/Logo_TV_2015.svg/512px-Logo_TV_2015.svg.png"
+                     class="logo">
+            </td>
+            <td class="company-details">
+                <strong>QuantumBot Pvt. Ltd.</strong><br>
+                123 Business Street<br>
+                Delhi, India<br>
+                support@quantumbot.com
+            </td>
+        </tr>
+    </table>
+
+    <div class="title">INVOICE</div>
+
+    <table class="details" width="100%">
+        <tr>
+            <th>Order ID:</th>
+            <td>{{ order_id }}</td>
+        </tr>
+        <tr>
+            <th>Payment ID:</th>
+            <td>{{ payment_id }}</td>
+        </tr>
+        <tr>
+            <th>Customer Email:</th>
+            <td>{{ email }}</td>
+        </tr>
+        <tr>
+            <th>Amount Paid:</th>
+            <td>$ {{ amount }}</td>
+        </tr>
+        <tr>
+            <th>Date:</th>
+            <td>{{ date }}</td>
+        </tr>
+    </table>
+
+    <table class="summary" width="100%">
+        <tr>
+            <td class="label">Total Amount</td>
+            <td>$ {{ amount }}</td>
+        </tr>
+    </table>
+
+    <div class="footer">
+        Thank you for your payment! Your order will be delivered within the estimated timeframe.
+        <br><br>
+        This invoice is generated automatically and does not require a signature.
+    </div>
+</div>
+</body>
+</html>
